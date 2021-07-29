@@ -38,6 +38,7 @@
       {
         "props": false
       }
-    ]
+    ],
+    "import/extensions": ["error", "never", { "svg": "always" }]
   }
 }
