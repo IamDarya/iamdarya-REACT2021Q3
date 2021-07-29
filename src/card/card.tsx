@@ -21,7 +21,7 @@ class Card extends React.Component<MyProps> {
     return (
       <div className="one-card-wrapper">
         <img alt="image" src={getRandomPic()} />
-        <div className='user-info-under-pic'>
+        <div className="user-info-under-pic">
           <p>name:</p>
           <h2>{this.props.name}</h2>
           <p>nickname:</p>
