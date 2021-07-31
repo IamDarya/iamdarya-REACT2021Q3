@@ -1,5 +1,5 @@
 import React from "react";
-import Card from "../card/card";
+import { Card } from "../card/card";
 import "../style.scss";
 import { User } from "../users/user";
 
@@ -7,7 +7,7 @@ type MyProps = {
   users: Array<User>;
 };
 
-class UsersList extends React.Component<MyProps> {
+export class UsersList extends React.Component<MyProps> {
   render(): JSX.Element {
     const usersArray = this.props.users.map((user, index) => (
       <Card
@@ -22,5 +22,3 @@ class UsersList extends React.Component<MyProps> {
     return <div className="cards-wrapper">{usersArray}</div>;
   }
 }
-
-export default UsersList;

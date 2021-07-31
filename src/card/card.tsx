@@ -16,7 +16,7 @@ function getRandomPic() {
   return link;
 }
 
-class Card extends React.Component<MyProps> {
+export class Card extends React.Component<MyProps> {
   render(): JSX.Element {
     return (
       <div className="one-card-wrapper">
@@ -33,5 +33,3 @@ class Card extends React.Component<MyProps> {
     );
   }
 }
-
-export default Card;
