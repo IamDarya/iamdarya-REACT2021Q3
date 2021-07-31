@@ -7,18 +7,16 @@ type MyProps = {
   users: Array<User>;
 };
 
-export class UsersList extends React.Component<MyProps> {
-  render(): JSX.Element {
-    const usersArray = this.props.users.map((user, index) => (
-      <Card
-        id={this.props.users[index].id}
-        name={this.props.users[index].name}
-        userName={this.props.users[index].userName}
-        email={this.props.users[index].email}
-        key={this.props.users[index].id}
-      />
-    ));
+export function UsersList(props: MyProps): JSX.Element {
+  const usersArray = props.users.map((user, index) => (
+    <Card
+      id={props.users[index].id}
+      name={props.users[index].name}
+      userName={props.users[index].userName}
+      email={props.users[index].email}
+      key={props.users[index].id}
+    />
+  ));
 
-    return <div className="cards-wrapper">{usersArray}</div>;
-  }
+  return <div className="cards-wrapper">{usersArray}</div>;
 }
