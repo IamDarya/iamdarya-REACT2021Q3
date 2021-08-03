@@ -1,14 +1,11 @@
 import React from "react";
-import { UsersList } from "./card/users-list";
-import { SearchBar } from "./search-bar/search-bar";
-import { users } from "./users/users-database";
+import { FormOfRegistration } from "./form-of-registration/form-of-registration";
 
 export function App(): JSX.Element {
   return (
     <>
-      <h1>Users</h1>
-      <SearchBar />
-      <UsersList users={users} />
+      <h1>Form</h1>
+      <FormOfRegistration />
     </>
   );
 }
