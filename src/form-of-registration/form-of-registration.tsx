@@ -24,8 +24,21 @@ export function FormOfRegistration(props: {
     setAgreementAgree(false);
   };
 
+  const validation = (dataToValidate: CardInterface) => {
+
+  }
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    validation({
+      firstName,
+      lastName,
+      email,
+      dateOfBirth,
+      country,
+      gender,
+      agreementAgree,
+    });
     props.setFormValues((state: CardInterface[]) => [
       ...state,
       {
@@ -123,6 +136,7 @@ export function FormOfRegistration(props: {
               name="answer"
               id="male"
               value={gender}
+              checked={gender==='male'}
               onChange={(event) => setGender("male")}
             />
             <label className="gender" htmlFor="male">
@@ -135,6 +149,7 @@ export function FormOfRegistration(props: {
               name="answer"
               id="female"
               value={gender}
+              checked={gender==='female'}
               onChange={(event) => setGender("female")}
             />
             <label className="gender" htmlFor="female">
