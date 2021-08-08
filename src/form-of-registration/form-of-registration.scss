@@ -1,0 +1,96 @@
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: fit-content;
+  height: 500px;
+  padding: 2rem 4rem;
+  background-color: #26272724;
+  border-radius: 1rem;
+  margin: auto;
+}
+
+input[type="text" i],
+input[type="email" i],
+input[type="date" i],
+.countries-wrapper > select {
+  height: 2.5rem;
+  background-color: rgb(232, 240, 254);
+  border: solid 1px #767676;
+}
+
+label {
+  font-size: 1.2rem;
+}
+
+form > div {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 140px 360px 160px;
+  grid-template-rows: 2rem;
+}
+
+.gender {
+  grid-template-columns: 260px 6rem auto;
+}
+
+.countries-wrapper {
+  grid-template-columns: 260px 240px 150px;
+}
+
+.agreement-wrapper {
+  grid-template-columns: 426px 3rem 160px;
+}
+
+a:hover {
+  color: #767676;
+}
+
+.btn label,
+.submit {
+  display: inline-block;
+  width: 6rem;
+  height: 2.5rem;
+  line-height: 28px;
+  text-align: center;
+  color: #1a0b04;
+  background-color: rgb(232, 240, 254);
+  cursor: pointer;
+  border: solid 1px #767676;
+  border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+  transition-property: box-shadow border-radius;
+  transition-duration: 0.7s;
+}
+
+.submit {
+  align-self: center;
+  background-color: white;
+  box-shadow: 1px 2px 0px #75a0fd;
+}
+
+.btn input {
+  display: none;
+}
+
+.btn-male input:checked ~ label,
+.btn-female input:checked ~ label {
+  background-color: #50e23dc7;
+  border: solid 1px #767676;
+  color: #fff;
+}
+
+.agreement-checkbox {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.errors {
+  color: rgba(255, 0, 0, 0.527);
+  margin-left: 0.5rem;
+}
+
+@media screen and (max-width: 1400px) {
+  form {
+    width: 50%;
+  }
+}
