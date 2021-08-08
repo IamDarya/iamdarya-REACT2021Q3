@@ -9,9 +9,8 @@ export function App(): JSX.Element {
     <>
       <h1>Form</h1>
       <FormOfRegistration setFormValues={setFormValues} />
-      <div>
+      <div className='cards-wrapper'>
         {formValues.map((item, index) => (
-          // return <CardWithData item={item} key={index}/>
           <CardWithData item={item} key={index} />
         ))}
       </div>

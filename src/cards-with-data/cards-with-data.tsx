@@ -34,7 +34,7 @@ export function CardWithData(props: PropsWithData): JSX.Element {
       </section>
       <section>
         <p>Agreement: </p>
-        <h2>{props.item.agreementAgree}</h2>
+        <h2>{props.item.agreementAgree.toString()}</h2>
       </section>
     </div>
   );

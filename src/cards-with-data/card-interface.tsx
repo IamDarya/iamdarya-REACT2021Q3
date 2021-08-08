@@ -5,5 +5,5 @@ export interface CardInterface {
   dateOfBirth: string;
   country: string;
   gender: string;
-  agreementAgree: boolean;
+  agreementAgree: string | boolean;
 }

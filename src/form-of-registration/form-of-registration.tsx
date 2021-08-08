@@ -1,7 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./form-of-registration.scss";
 import "../style.scss";
 import { CardInterface } from "../cards-with-data/card-interface";
+
+interface Errors {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  dateOfBirth?: string;
+  gender?: string;
+  agreementAgree?: boolean;
+}
+
+const todayDay = new Date().toISOString().slice(0, 10).replaceAll("-", "");
+const emailValidReg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export function FormOfRegistration(props: {
   setFormValues: React.Dispatch<React.SetStateAction<CardInterface[]>>;
@@ -13,6 +25,8 @@ export function FormOfRegistration(props: {
   const [country, setCountry] = useState("Australia");
   const [gender, setGender] = useState("");
   const [agreementAgree, setAgreementAgree] = useState(false);
+  const [errors, setErrors] = useState({} as Errors);
+  const [submitClicked, setSubmitClicked] = useState(false);
 
   const reset = () => {
     setFirstName("");
@@ -22,36 +36,62 @@ export function FormOfRegistration(props: {
     setCountry("Australia");
     setGender("");
     setAgreementAgree(false);
+    setSubmitClicked(false);
   };
 
-  const validation = (dataToValidate: CardInterface) => {
+  const validation = () => {
+    setErrors({});
+    if (!agreementAgree) {
+      setErrors((state) => ({ ...state, agreementAgree }));
+    }
+    if (firstName === "") {
+      setErrors((state) => ({ ...state, firstName }));
+    }
+    if (lastName === "") {
+      setErrors((state) => ({ ...state, lastName }));
+    }
+    if (email === "") {
+      setErrors((state) => ({ ...state, email }));
+    }
+    if (dateOfBirth === "") {
+      setErrors((state) => ({ ...state, dateOfBirth }));
+    }
+    if (gender === "") {
+      setErrors((state) => ({ ...state, gender }));
+    }
+  };
 
-  }
+  useEffect(() => {
+    validation();
+  }, [
+    firstName,
+    lastName,
+    email,
+    dateOfBirth,
+    country,
+    gender,
+    agreementAgree,
+  ]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    validation({
-      firstName,
-      lastName,
-      email,
-      dateOfBirth,
-      country,
-      gender,
-      agreementAgree,
-    });
-    props.setFormValues((state: CardInterface[]) => [
-      ...state,
-      {
-        firstName,
-        lastName,
-        email,
-        dateOfBirth,
-        country,
-        gender,
-        agreementAgree,
-      },
-    ]);
-    reset();
+    setSubmitClicked(true);
+
+    if (Object.keys(errors).length === 0) {
+      props.setFormValues((state: CardInterface[]) => [
+        ...state,
+        {
+          firstName,
+          lastName,
+          email,
+          dateOfBirth,
+          country,
+          gender,
+          agreementAgree,
+        },
+      ]);
+      reset();
+    }
   };
 
   return (
@@ -62,10 +102,14 @@ export function FormOfRegistration(props: {
           <input
             value={firstName}
             type="text"
+            pattern="[a-zA-Z][a-zA-Z ]{2,30}"
             id="firstName"
             name="firstName"
             onChange={(event) => setFirstName(event.target.value)}
           />
+          {errors.firstName === "" && submitClicked === true && (
+            <span className="errors">*this field is required</span>
+          )}
         </div>
 
         <div>
@@ -73,10 +117,14 @@ export function FormOfRegistration(props: {
           <input
             value={lastName}
             type="text"
+            pattern="[a-zA-Z][a-zA-Z ]{2,30}"
             id="lastName"
             name="lastName"
             onChange={(event) => setLastName(event.target.value)}
           />
+          {errors.lastName === "" && submitClicked === true && (
+            <span className="errors">*this field is required</span>
+          )}
         </div>
 
         <div>
@@ -88,6 +136,9 @@ export function FormOfRegistration(props: {
             name="email"
             onChange={(event) => setEmail(event.target.value)}
           />
+          {(errors.email === "" || !email.match(emailValidReg)) && submitClicked === true && (
+            <span className="errors">*this field is required</span>
+          )}
         </div>
 
         <div>
@@ -99,6 +150,14 @@ export function FormOfRegistration(props: {
             name="dateOfBirth"
             onChange={(event) => setDateOfBirth(event.target.value)}
           />
+          {submitClicked === true &&
+            (errors.dateOfBirth === "" ||
+              parseInt(todayDay, 10) <=
+                parseInt(dateOfBirth.replaceAll("-", ""), 10)) && (
+            <span className="errors">
+                *this field is required and the date must be less than today
+            </span>
+          )}
         </div>
 
         <div className="countries-wrapper">
@@ -136,8 +195,8 @@ export function FormOfRegistration(props: {
               name="answer"
               id="male"
               value={gender}
-              checked={gender==='male'}
-              onChange={(event) => setGender("male")}
+              checked={gender === "male"}
+              onChange={() => setGender("male")}
             />
             <label className="gender" htmlFor="male">
               Male
@@ -149,13 +208,16 @@ export function FormOfRegistration(props: {
               name="answer"
               id="female"
               value={gender}
-              checked={gender==='female'}
-              onChange={(event) => setGender("female")}
+              checked={gender === "female"}
+              onChange={() => setGender("female")}
             />
             <label className="gender" htmlFor="female">
               Female
             </label>
           </div>
+          {errors.gender === "" && submitClicked === true && (
+            <span className="errors">*this field is required</span>
+          )}
         </div>
 
         <div className="agreement-wrapper">
@@ -167,8 +229,11 @@ export function FormOfRegistration(props: {
             className="agreement-checkbox"
             checked={agreementAgree}
             onChange={() => setAgreementAgree((prev) => !prev)}
-          />{" "}
+          />
           {/* function(prev) { return !prev; } */}
+          {(errors.agreementAgree !== undefined && submitClicked === true) && (
+            <span className="errors">*this field is required</span>
+          )}
         </div>
 
         <input type="submit" className="submit btn" value="Submit" />
