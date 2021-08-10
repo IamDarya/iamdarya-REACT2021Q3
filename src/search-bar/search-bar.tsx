@@ -1,19 +1,32 @@
 import React, { ChangeEvent, useState } from "react";
+import { AxiosResponse } from "../../node_modules/axios/index";
+import { Article, Get200_Articles } from "../articles/article";
+import { Posts } from "../articles/posts";
+import { axiosInstance } from "../services/api";
 import "../style.scss";
 
 export function SearchBar(): JSX.Element {
   const [searchValue, setSearchValue] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [articles, setArticles] = useState<Array<Article>>([]);
+
+  const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsLoading(true);
+    try{
+      const response: AxiosResponse<Get200_Articles> = await axiosInstance.get(`/v2/everything?q=${searchValue}&apiKey=40f8ecaa00bd42db95beab4189efa260`)
+      setArticles(response.data.articles);
+    } catch(error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const {value} = event.target;
     setSearchValue(value);
-    console.log(value);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
   };
 
   return (
@@ -25,13 +38,14 @@ export function SearchBar(): JSX.Element {
             id="search-txt"
             className="search-txt"
             type="text"
+            autoComplete='off'
             placeholder="Type to search..."
             onChange={handleChange}
             value={searchValue}
             disabled={isLoading}
           />
         </label>
-        <button type="submit" className="search-btn">
+        <button type="submit" className="search-btn" disabled={isLoading}>{isLoading && 'Searching...'}
           <svg
             className="svg-inline--fa fa-search fa-w-16"
             aria-hidden="true"
@@ -49,6 +63,7 @@ export function SearchBar(): JSX.Element {
           </svg>
         </button>
       </form>
+      <Posts articles={articles} />
     </>
   );
 }

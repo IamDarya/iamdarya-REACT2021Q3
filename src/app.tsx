@@ -1,9 +1,9 @@
 import React, { Suspense } from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import { Posts } from "./card/posts";
-import { UsersList } from "./card/users-list";
+import { Posts } from "./articles/posts";
+// import { UsersList } from "./card/users-list";
 import { SearchBar } from "./search-bar/search-bar";
-import { users } from "./users/users-database";
+// import { users } from "./articles/users-database";
 
 // const navData = [
 //   {
@@ -19,7 +19,7 @@ export function App(): JSX.Element {
   return (
     <div className="App">
       <SearchBar />
-      <Posts />
+      {/* <Posts articles={articles}/> */}
       {/* <Suspense fallback={<div>Loading...</div>}>
         <Switch>
           {navData.map(({Component, path}): JSX.Element => {
