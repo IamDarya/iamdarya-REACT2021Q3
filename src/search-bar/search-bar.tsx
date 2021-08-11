@@ -1,6 +1,6 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { AxiosResponse } from "../../node_modules/axios/index";
-import { Article, Get200_Articles } from "../articles/article";
+import { Article, GetArticles, SortType } from "../types/types";
 import { Posts } from "../articles/posts";
 import { axiosInstance } from "../services/api";
 import "../style.scss";
@@ -9,25 +9,38 @@ export function SearchBar(): JSX.Element {
   const [searchValue, setSearchValue] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [articles, setArticles] = useState<Array<Article>>([]);
+  const [clickSearch, setClickSearch] = useState<boolean>(false);
+  const [sortBy, setSortBy] = useState<SortType>(SortType.publishedAt);
 
-  const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsLoading(true);
-    try{
-      const response: AxiosResponse<Get200_Articles> = await axiosInstance.get(`/v2/everything?q=${searchValue}&apiKey=40f8ecaa00bd42db95beab4189efa260`)
+  const getArticlesFromAPI=async ()=>{
+    try {
+      const response: AxiosResponse<GetArticles> = await axiosInstance.get(
+        `/v2/everything?q=${searchValue}&sortBy=${sortBy}&apiKey=40f8ecaa00bd42db95beab4189efa260`
+      );
       setArticles(response.data.articles);
-    } catch(error) {
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
+  }
+
+  const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setClickSearch(true);
+    setIsLoading(true);
+    await getArticlesFromAPI();
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    const {value} = event.target;
+    const { value } = event.target;
     setSearchValue(value);
   };
+
+  useEffect(()=>{
+    getArticlesFromAPI();
+  }, [sortBy]);
 
   return (
     <>
@@ -38,14 +51,15 @@ export function SearchBar(): JSX.Element {
             id="search-txt"
             className="search-txt"
             type="text"
-            autoComplete='off'
+            autoComplete="off"
             placeholder="Type to search..."
             onChange={handleChange}
             value={searchValue}
             disabled={isLoading}
           />
         </label>
-        <button type="submit" className="search-btn" disabled={isLoading}>{isLoading && 'Searching...'}
+        <button type="submit" className="search-btn" disabled={isLoading}>
+          {isLoading && "Searching..."}
           <svg
             className="svg-inline--fa fa-search fa-w-16"
             aria-hidden="true"
@@ -63,7 +77,46 @@ export function SearchBar(): JSX.Element {
           </svg>
         </button>
       </form>
-      <Posts articles={articles} />
+      <div className="btns-for-sort-wrapper">
+        <label className="sort-by-label">Sort by:</label>
+        <button
+          type="submit"
+          onClick={() => {setSortBy(SortType.publishedAt)}}
+          value={SortType.publishedAt}
+          disabled={!clickSearch || sortBy === SortType.publishedAt}
+        >
+          {SortType.publishedAt}
+        </button>
+        <button
+          type="submit"
+          onClick={() => {setSortBy(SortType.popularity)}}
+          value={SortType.popularity}
+          disabled={!clickSearch || sortBy === SortType.popularity}
+        >
+          {SortType.popularity}
+        </button>
+        <button
+          type="button"
+          onClick={() => {setSortBy(SortType.relevancy)}}
+          value={SortType.relevancy}
+          disabled={!clickSearch || sortBy === SortType.relevancy}
+        >
+          {SortType.relevancy}
+        </button>
+      </div>
+      <Posts
+        articles={articles}
+        isLoading={isLoading}
+        clickSearch={clickSearch}
+      />
+      <div className="prev-next-btns-wrapper">
+        <button className="prev" disabled={!clickSearch}>
+          PREV
+        </button>
+        <button className="next" disabled={!clickSearch}>
+          NEXT
+        </button>
+      </div>
     </>
   );
 }

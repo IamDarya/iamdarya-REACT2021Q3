@@ -1,45 +1,22 @@
 @import url(https://fonts.googleapis.com/css?family=Raleway);
 
 body {
-  background-image: linear-gradient(#e4edc5, #a9c4ff);
-  min-height: 100vh;
+  background-image: linear-gradient(#fbffef, #f2f4fa);
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
   font-family: "Raleway";
-  color: white;
+  color: #607d8b;
+  margin: 0;
+  height: 100vh;
 }
 
-header > img {
-  height: 1.5rem;
+.search-for-smth {
+  margin: 6rem auto 20rem;
 }
 
-.user-info-under-pic > p {
-  margin-block-start: 0.15em;
-  margin-block-end: 0.15em;
-}
-
-h1 {
-  text-align: center;
-  text-transform: uppercase;
-  text-shadow: 1px 2px 0px #75a0fd;
-  font-size: 4rem;
-}
-
-h2 {
-  margin-block-start: 0.15em;
-  font-size: 1.2rem;
-}
-
-.cards-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 3rem;
-}
-
-.one-card-wrapper {
-  background-image: linear-gradient(rgb(255 255 170), rgb(169 196 255));
-  box-shadow: 0px 8px 12px 2px rgb(7 15 50 / 11%);
+.one-article-wrapper {
+  background-image: linear-gradient(#fbffef, #f2f4fa);
+  box-shadow: 1px 2px 7px 0px #607d8b;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,26 +24,48 @@ h2 {
   margin: 1.5rem;
   padding: 1rem;
   height: fit-content;
-  width: 15rem;
-  border-radius: 1rem;
+  width: 80%;
+  border-radius: 0.6rem;
   transition: 1s;
 }
 
-.one-card-wrapper:hover {
-  box-shadow: 0px 9px 20px 4px rgb(7 15 50 / 52%);
+.one-article-wrapper > img {
+  width: 100%;
 }
 
-.one-card-wrapper > img {
-  height: 12rem;
+h1 {
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 1px 2px 0px #030b13;
+  font-size: 4rem;
+  margin: 0;
+}
+
+.cards-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.btns-for-sort-wrapper,
+.prev-next-btns-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.sort-by-label {
+  margin-right: 5px;
 }
 
 /*SEARCH*/
 
 .search {
-  background: #acc6fd6b;
+  background: #fbffef;
   height: 40px;
   border-radius: 40px;
-  border: 4px solid #b5ccf3;
+  border: 4px solid #a8b9c2;
   width: 40%;
   height: 4rem;
   display: flex;
@@ -81,20 +80,20 @@ h2 {
 }
 
 .search-btn {
-  background-color: #b5ccf3;
-  color: #fdfead;
-  width: 78px;
+  background-color: #a8b9c2;
+  color: #fcfcef;
+  width: 71px;
   height: 67px;
   margin-right: -3px;
   border-radius: 50%;
-  border: 3px solid #b5ccf3;
+  border: 3px solid #a8b9c2;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 ::placeholder {
-  color: white;
+  color: #44586b;
 }
 
 .search-btn > svg {
@@ -102,7 +101,7 @@ h2 {
 }
 
 .search-btn:hover > svg {
-  filter: drop-shadow(2px 3px 0px #75a0fd);
+  filter: drop-shadow(2px 3px 0px #44586b);
 }
 
 .search-txt {
@@ -115,5 +114,5 @@ h2 {
   line-height: 40px;
   width: 100%;
   padding: 0 1.2rem;
-  color: white;
+  color: #44586b;
 }
