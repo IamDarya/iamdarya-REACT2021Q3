@@ -11,7 +11,7 @@ export function SearchBar(): JSX.Element {
   const [articles, setArticles] = useState<Array<Article>>([]);
   const [clickSearch, setClickSearch] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<SortType>(SortType.publishedAt);
-  const [amountArtclsPerPAge, setAmountArtclsPerPAge] = useState<AmountArtclsPerPAge>(AmountArtclsPerPAge.twenty);
+  const [amountArtclsPerPAge, setAmountArtclsPerPAge] = useState<number>(AmountArtclsPerPAge.twenty);
   const [totalResults,setTotalResults] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
 
@@ -19,7 +19,7 @@ export function SearchBar(): JSX.Element {
     if(searchValue !== ''){
     try {
       const response: AxiosResponse<GetArticles> = await axiosInstance.get(
-        `/v2/everything?q=${searchValue}&sortBy=${sortBy}&pageSize=${amountArtclsPerPAge}&apiKey=40f8ecaa00bd42db95beab4189efa260`
+        `/v2/everything?q=${searchValue}&sortBy=${sortBy}&pageSize=${amountArtclsPerPAge}&page=${page}&apiKey=40f8ecaa00bd42db95beab4189efa260`
       );
       setTotalResults(response.data.totalResults);
       setArticles(response.data.articles);
@@ -46,7 +46,7 @@ export function SearchBar(): JSX.Element {
 
   useEffect(()=>{
     getArticlesFromAPI();
-  }, [sortBy, amountArtclsPerPAge]);
+  }, [sortBy, amountArtclsPerPAge, page]);
 
   return (
     <>
@@ -109,13 +109,7 @@ export function SearchBar(): JSX.Element {
         >
           {SortType.relevancy}
         </button>
-      </div>
-      <Posts
-        articles={articles}
-        isLoading={isLoading}
-        clickSearch={clickSearch}
-      />
-      <div className="prev-next-btns-wrapper">
+        <div className="prev-next-btns-wrapper">
         <label htmlFor="amount-of-artcles-per-page" className='margin-for-labels'>Amount of articles per page: </label>
         <select value={amountArtclsPerPAge} onChange={(event)=>{setAmountArtclsPerPAge(parseInt(event.target.value))}} name="amount-of-artcles-per-page" id="amount-of-artcles-per-page">
           <option value={AmountArtclsPerPAge.twenty}>{AmountArtclsPerPAge.twenty}</option>
@@ -124,7 +118,15 @@ export function SearchBar(): JSX.Element {
           <option value={AmountArtclsPerPAge.one}>{AmountArtclsPerPAge.one}</option>
         </select>
         <label htmlFor="amount-of-pages" className='margin-for-labels'>Amount of found articles: {totalResults}</label>
+        { totalResults>0 && <><label htmlFor="choose-page" className='choose-page margin-for-labels'>Choose a page (1-{Math.ceil(totalResults/amountArtclsPerPAge)}): </label>
+        <input type="number" id='choose-page' onChange={(event)=>{setPage(parseInt(event.target.value))}} value={page} min="1" max={Math.ceil(totalResults/amountArtclsPerPAge)} /></>}
       </div>
+      </div>
+      <Posts
+        articles={articles}
+        isLoading={isLoading}
+        clickSearch={clickSearch}
+      />
     </>
   );
 }
