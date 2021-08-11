@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { AxiosResponse } from "../../node_modules/axios/index";
-import { Article, GetArticles, SortType } from "../types/types";
+import { AmountArtclsPerPAge, Article, GetArticles, SortType } from "../types/types";
 import { Posts } from "../articles/posts";
 import { axiosInstance } from "../services/api";
 import "../style.scss";
@@ -11,17 +11,23 @@ export function SearchBar(): JSX.Element {
   const [articles, setArticles] = useState<Array<Article>>([]);
   const [clickSearch, setClickSearch] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<SortType>(SortType.publishedAt);
+  const [amountArtclsPerPAge, setAmountArtclsPerPAge] = useState<AmountArtclsPerPAge>(AmountArtclsPerPAge.twenty);
+  const [totalResults,setTotalResults] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
 
   const getArticlesFromAPI=async ()=>{
+    if(searchValue !== ''){
     try {
       const response: AxiosResponse<GetArticles> = await axiosInstance.get(
-        `/v2/everything?q=${searchValue}&sortBy=${sortBy}&apiKey=40f8ecaa00bd42db95beab4189efa260`
+        `/v2/everything?q=${searchValue}&sortBy=${sortBy}&pageSize=${amountArtclsPerPAge}&apiKey=40f8ecaa00bd42db95beab4189efa260`
       );
+      setTotalResults(response.data.totalResults);
       setArticles(response.data.articles);
     } catch (error) {
       console.log(error);
     } finally {
       setIsLoading(false);
+    }
     }
   }
 
@@ -29,7 +35,7 @@ export function SearchBar(): JSX.Element {
     event.preventDefault();
     setClickSearch(true);
     setIsLoading(true);
-    await getArticlesFromAPI();
+  await getArticlesFromAPI();
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +46,7 @@ export function SearchBar(): JSX.Element {
 
   useEffect(()=>{
     getArticlesFromAPI();
-  }, [sortBy]);
+  }, [sortBy, amountArtclsPerPAge]);
 
   return (
     <>
@@ -78,7 +84,7 @@ export function SearchBar(): JSX.Element {
         </button>
       </form>
       <div className="btns-for-sort-wrapper">
-        <label className="sort-by-label">Sort by:</label>
+        <label className="sort-by-label margin-for-labels">Sort by:</label>
         <button
           type="submit"
           onClick={() => {setSortBy(SortType.publishedAt)}}
@@ -110,12 +116,14 @@ export function SearchBar(): JSX.Element {
         clickSearch={clickSearch}
       />
       <div className="prev-next-btns-wrapper">
-        <button className="prev" disabled={!clickSearch}>
-          PREV
-        </button>
-        <button className="next" disabled={!clickSearch}>
-          NEXT
-        </button>
+        <label htmlFor="amount-of-artcles-per-page" className='margin-for-labels'>Amount of articles per page: </label>
+        <select value={amountArtclsPerPAge} onChange={(event)=>{setAmountArtclsPerPAge(parseInt(event.target.value))}} name="amount-of-artcles-per-page" id="amount-of-artcles-per-page">
+          <option value={AmountArtclsPerPAge.twenty}>{AmountArtclsPerPAge.twenty}</option>
+          <option value={AmountArtclsPerPAge.ten}>{AmountArtclsPerPAge.ten}</option>
+          <option value={AmountArtclsPerPAge.five}>{AmountArtclsPerPAge.five}</option>
+          <option value={AmountArtclsPerPAge.one}>{AmountArtclsPerPAge.one}</option>
+        </select>
+        <label htmlFor="amount-of-pages" className='margin-for-labels'>Amount of found articles: {totalResults}</label>
       </div>
     </>
   );

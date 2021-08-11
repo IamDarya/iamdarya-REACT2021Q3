@@ -14,10 +14,18 @@ export interface Article {
 
 export interface GetArticles {
   articles: Article[];
+  totalResults: number;
 }
 
 export enum SortType {
   publishedAt = "publishedAt",
   popularity = "popularity",
   relevancy = "relevancy",
+}
+
+export enum AmountArtclsPerPAge {
+  one = 1,
+  five = 5,
+  ten = 10,
+  twenty = 20,
 }
