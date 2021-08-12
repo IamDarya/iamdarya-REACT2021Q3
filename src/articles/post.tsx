@@ -21,27 +21,34 @@ export function ArticlePost(props: MyProps): JSX.Element {
       <h2>{props.title}</h2>
 
       <p>by:</p>
-      <h2>{props.author}</h2>
+      <h3>{props.author}</h3>
 
-      <img src={props.urlToImage} />{props.urlToImage === null && <img src={'https://image.flaticon.com/icons/png/512/4441/4441676.png'} alt='Some text to describe the picture.'/>}
+      <p>image:</p>
+      <img
+        src={
+          props.urlToImage !== null
+            ? props.urlToImage
+            : "https://image.flaticon.com/icons/png/512/4441/4441676.png"
+        }
+      />
 
       <p>source name:</p>
-      <h2>{props.source.name}</h2>
+      <h3>{props.source.name}</h3>
 
       <p>description:</p>
-      <h2>{props.description}</h2>
+      <h3>{props.description}</h3>
 
-      <p>content:</p>
-      <h2>{props.content}</h2>
+      <p>preview:</p>
+      <h3>{props.content}</h3>
 
-      <p>publishedAt:</p>
-      <h2>{props.publishedAt}</h2>
+      <p>read more:</p>
+      <a href={props.url}>{props.url}</a>
+
+      <p>published at:</p>
+      <h3>{props.publishedAt}</h3>
 
       {/* <p>source id:</p>
         <h2>{props.source.id}</h2> */}
-
-      <p>url:</p>
-      <a href={props.url}>{props.url}</a>
     </div>
   );
 }

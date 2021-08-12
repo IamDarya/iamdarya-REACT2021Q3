@@ -2,7 +2,7 @@ import React from "react";
 // import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 // import { Posts } from "./articles/posts";
 // import { UsersList } from "./card/users-list";
-import { SearchBar } from "./search-bar/search-bar";
+import { SearchBar } from "./main/main";
 // import { users } from "./articles/users-database";
 
 // const navData = [
