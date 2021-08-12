@@ -27,7 +27,7 @@ export function SearchBar(): JSX.Element {
     if (clickSearch === true && searchValue !== "") {
       try {
         const response: AxiosResponse<GetArticles> = await axiosInstance.get(
-          `/v2/everything?q=${searchValue}&sortBy=${sortBy}&pageSize=${amountArtclsPerPAge}&page=${page}&apiKey=329abaf799f04521818f8694ecd73318` // 40f8ecaa00bd42db95beab4189efa260
+          `/v2/everything?q=${searchValue}&sortBy=${sortBy}&pageSize=${amountArtclsPerPAge}&page=${page}&apiKey=40f8ecaa00bd42db95beab4189efa260` // 329abaf799f04521818f8694ecd73318
         );
         setTotalResults(response.data.totalResults);
         setArticles(response.data.articles);
