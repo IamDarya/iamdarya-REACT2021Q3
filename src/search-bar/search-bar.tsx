@@ -16,10 +16,10 @@ export function SearchBar(): JSX.Element {
   const [page, setPage] = useState<number>(1);
 
   const getArticlesFromAPI=async ()=>{
-    if(searchValue !== ''){
+    if(clickSearch===true && searchValue !== ''){
     try {
       const response: AxiosResponse<GetArticles> = await axiosInstance.get(
-        `/v2/everything?q=${searchValue}&sortBy=${sortBy}&pageSize=${amountArtclsPerPAge}&page=${page}&apiKey=40f8ecaa00bd42db95beab4189efa260`
+        `/v2/everything?q=${searchValue}&sortBy=${sortBy}&pageSize=${amountArtclsPerPAge}&page=${page}&apiKey=329abaf799f04521818f8694ecd73318` // 40f8ecaa00bd42db95beab4189efa260
       );
       setTotalResults(response.data.totalResults);
       setArticles(response.data.articles);
@@ -46,7 +46,7 @@ export function SearchBar(): JSX.Element {
 
   useEffect(()=>{
     getArticlesFromAPI();
-  }, [sortBy, amountArtclsPerPAge, page]);
+  }, [sortBy, amountArtclsPerPAge, page, clickSearch]);
 
   return (
     <>
@@ -118,7 +118,7 @@ export function SearchBar(): JSX.Element {
           <option value={AmountArtclsPerPAge.one}>{AmountArtclsPerPAge.one}</option>
         </select>
         <label htmlFor="amount-of-pages" className='margin-for-labels'>Amount of found articles: {totalResults}</label>
-        { totalResults>0 && <><label htmlFor="choose-page" className='choose-page margin-for-labels'>Choose a page (1-{Math.ceil(totalResults/amountArtclsPerPAge)}): </label>
+        { totalResults>0 && <><label htmlFor="choose-page" className='choose-page margin-for-labels'>Select a page (1-{Math.ceil(totalResults/amountArtclsPerPAge)}): </label>
         <input type="number" id='choose-page' onChange={(event)=>{setPage(parseInt(event.target.value))}} value={page} min="1" max={Math.ceil(totalResults/amountArtclsPerPAge)} /></>}
       </div>
       </div>

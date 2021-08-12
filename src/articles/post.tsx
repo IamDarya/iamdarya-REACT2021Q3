@@ -23,7 +23,7 @@ export function ArticlePost(props: MyProps): JSX.Element {
       <p>by:</p>
       <h2>{props.author}</h2>
 
-      <img src={props.urlToImage} />
+      <img src={props.urlToImage} />{props.urlToImage === null && <img src={'https://image.flaticon.com/icons/png/512/4441/4441676.png'} alt='Some text to describe the picture.'/>}
 
       <p>source name:</p>
       <h2>{props.source.name}</h2>
