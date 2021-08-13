@@ -10,6 +10,7 @@ import { Posts } from "../articles/posts";
 import { axiosInstance } from "../services/api";
 import "../style.scss";
 import { LoadingSpinner } from "../loading-spinner/loading-spinner";
+import { Header } from "../header/header";
 
 export function SearchBar(): JSX.Element {
   const [searchValue, setSearchValue] = useState<string>("");
@@ -58,6 +59,7 @@ export function SearchBar(): JSX.Element {
 
   return (
     <>
+    <Header />
       <h1>Search For The News</h1>
       <form className="search" onSubmit={handleSubmit}>
         <label htmlFor="search-txt">

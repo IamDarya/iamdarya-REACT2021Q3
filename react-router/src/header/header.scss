@@ -1,0 +1,15 @@
+.header {
+  display: flex;
+  border-bottom: 1px solid #a8b9c2;
+  color: #607d8b;
+}
+
+h3 {
+  margin-left: 2rem;
+  margin-right: 1rem;
+}
+
+h3:hover {
+  transform: scale(1.2);
+  transition: ease-in 0.4s;
+}
