@@ -9,7 +9,16 @@ h3 {
   margin-right: 1rem;
 }
 
-h3:hover {
-  transform: scale(1.2);
+a:hover {
+  text-decoration: underline #607d8b;
   transition: ease-in 0.4s;
+}
+
+.link-active.link {
+  text-decoration: underline #607d8b;
+}
+
+.link {
+  color: #607d8b;
+  text-decoration: none;
 }

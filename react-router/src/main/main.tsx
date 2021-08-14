@@ -59,7 +59,7 @@ export function SearchBar(): JSX.Element {
 
   return (
     <>
-    <Header />
+      <Header />
       <h1>Search For The News</h1>
       <form className="search" onSubmit={handleSubmit}>
         <label htmlFor="search-txt">
