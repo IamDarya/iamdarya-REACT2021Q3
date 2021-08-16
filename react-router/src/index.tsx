@@ -11,17 +11,17 @@ ReactDOM.render(
   <React.StrictMode>
     <HashRouter>
       <Switch>
-      <Route
-        exact
-        path='/'
-        component={App}
-      />
-      <Route
-        exact
-        path='/about'
-        component={About}
-      />
-      <Route component={ErrorPage}/>
+        <Route
+          exact
+          path='/'
+          component={App}
+        />
+        <Route
+          exact
+          path='/about'
+          component={About}
+        />
+        <Route component={ErrorPage}/>
       </Switch>
     </HashRouter>
   </React.StrictMode>,

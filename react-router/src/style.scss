@@ -81,8 +81,9 @@ h1 {
   min-width: 45%;
   max-width: 650px;
   height: 4rem;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 67px;
+  align-content: center;
   align-items: center;
   margin: 2rem auto;
   transition: ease-in 0.4s;
@@ -102,7 +103,6 @@ input:-internal-autofill-selected {
   color: #fbffef;
   width: 71px;
   height: 67px;
-  margin-right: -3px;
   border-radius: 50%;
   border: 3px solid #a8b9c2;
   display: flex;
@@ -130,7 +130,7 @@ input:-internal-autofill-selected {
   padding: 0;
   font-size: 1.2rem;
   line-height: 40px;
-  width: 100%;
+  width: 97%;
   padding: 0 1.2rem;
   color: #44586b;
 }

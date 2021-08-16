@@ -25,7 +25,7 @@ export function Posts(props: Props): JSX.Element {
   ));
   return (
     <div className="cards-wrapper">
-      {(!props.clickSearch || props.isLoading) && (
+      {(props.articles === []) && (
         <h2 className="search-for-smth">Search for something...</h2>
       )}
       {articlesArray}
