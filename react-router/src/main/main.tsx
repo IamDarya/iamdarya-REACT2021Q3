@@ -26,17 +26,41 @@ export function SearchBar(): JSX.Element {
 
   const myStorage: Storage = window.sessionStorage;
 
-  const setStorageSession = (searchValueStorage: string,sortByStorage: SortType,amountArtclsPerPAgeStorage: number,pageStorage: number, clickSearchStorage: boolean) => {
-    myStorage.setItem('searchValueStorage', searchValueStorage);
-    myStorage.setItem('sortByStorage', sortByStorage);
-    myStorage.setItem('amountArtclsPerPAgeStorage', amountArtclsPerPAgeStorage.toString());
-    myStorage.setItem('pageStorage', pageStorage.toString());
-    myStorage.setItem('clickSearchStorage', clickSearch === true ?  'true' : 'false');
-  }
+  const setStorageSession = (
+    searchValueStorage: string,
+    sortByStorage: SortType,
+    amountArtclsPerPAgeStorage: number,
+    pageStorage: number,
+    clickSearchStorage: boolean
+  ) => {
+    myStorage.setItem("searchValueStorage", searchValueStorage);
+    myStorage.setItem("sortByStorage", sortByStorage);
+    myStorage.setItem(
+      "amountArtclsPerPAgeStorage",
+      amountArtclsPerPAgeStorage.toString()
+    );
+    myStorage.setItem("pageStorage", pageStorage.toString());
+    myStorage.setItem(
+      "clickSearchStorage",
+      clickSearch === true ? "true" : "false"
+    );
+  };
 
-  const getArticlesFromAPI = async (searchValueAPI: string,sortByAPI: SortType,amountArtclsPerPAgeAPI: number,pageAPI: number, clickSearchAPI: boolean) => {
+  const getArticlesFromAPI = async (
+    searchValueAPI: string,
+    sortByAPI: SortType,
+    amountArtclsPerPAgeAPI: number,
+    pageAPI: number,
+    clickSearchAPI: boolean
+  ) => {
     if (clickSearchAPI === true && searchValueAPI !== "") {
-      setStorageSession(searchValueAPI,sortByAPI,amountArtclsPerPAgeAPI,pageAPI,clickSearchAPI);
+      setStorageSession(
+        searchValueAPI,
+        sortByAPI,
+        amountArtclsPerPAgeAPI,
+        pageAPI,
+        clickSearchAPI
+      );
       try {
         const response: AxiosResponse<GetArticles> = await axiosInstance.get(
           `/v2/everything?q=${searchValueAPI}&sortBy=${sortByAPI}&pageSize=${amountArtclsPerPAgeAPI}&page=${pageAPI}&apiKey=1937ba3dfc0942eb85c1f4032377b9a6` // 40f8ecaa00bd42db95beab4189efa260 ; 329abaf799f04521818f8694ecd73318
@@ -44,7 +68,8 @@ export function SearchBar(): JSX.Element {
         setTotalResults(response.data.totalResults);
         setArticles(response.data.articles);
       } catch (error) {
-        console.log(error);
+        throw new Error(error);
+        ;
       } finally {
         setIsLoading(false);
       }
@@ -52,60 +77,75 @@ export function SearchBar(): JSX.Element {
   };
 
   useEffect(() => {
-    let searchValueStorage = '';
+    let searchValueStorage = "";
     let sortByStorage = SortType.publishedAt;
     let amountArtclsPerPAgeStorage = AmountArtclsPerPAge.twenty;
     let pageStorage = 1;
     let clickSearchStorage = false;
-    if (searchValue === '' && myStorage.getItem("searchValueStorage")) {
-      searchValueStorage =  myStorage.getItem('searchValueStorage') || "";
+    if (searchValue === "" && myStorage.getItem("searchValueStorage")) {
+      searchValueStorage = myStorage.getItem("searchValueStorage") || "";
       setSearchValue(searchValueStorage);
     }
     if (sortBy === SortType.publishedAt && myStorage.getItem("sortByStorage")) {
-      sortByStorage =  myStorage.getItem('sortByStorage') as SortType;
+      sortByStorage = myStorage.getItem("sortByStorage") as SortType;
       setSortBy(sortByStorage);
     }
-    if (amountArtclsPerPAge === AmountArtclsPerPAge.twenty && myStorage.getItem("amountArtclsPerPAgeStorage")) {
-      amountArtclsPerPAgeStorage =  parseInt(myStorage.getItem('amountArtclsPerPAgeStorage') || '20', 10);
-      setAmountArtclsPerPAge(amountArtclsPerPAgeStorage)
+    if (
+      amountArtclsPerPAge === AmountArtclsPerPAge.twenty &&
+      myStorage.getItem("amountArtclsPerPAgeStorage")
+    ) {
+      amountArtclsPerPAgeStorage = parseInt(
+        myStorage.getItem("amountArtclsPerPAgeStorage") || "20",
+        10
+      );
+      setAmountArtclsPerPAge(amountArtclsPerPAgeStorage);
     }
     if (page === 1 && myStorage.getItem("pageStorage")) {
-      pageStorage =  parseInt(myStorage.getItem('pageStorage') || '1',10);
+      pageStorage = parseInt(myStorage.getItem("pageStorage") || "1", 10);
       setPage(pageStorage);
     }
-    if(clickSearch === false && myStorage.getItem("clickSearchStorage")) {
-      clickSearchStorage = myStorage.getItem('clickSearchStorage') === 'true';
+    if (clickSearch === false && myStorage.getItem("clickSearchStorage")) {
+      clickSearchStorage = myStorage.getItem("clickSearchStorage") === "true";
       setClickSearch(clickSearchStorage);
     }
 
-    getArticlesFromAPI(searchValueStorage,
+    getArticlesFromAPI(
+      searchValueStorage,
       sortByStorage,
       amountArtclsPerPAgeStorage,
-      pageStorage, clickSearchStorage)
+      pageStorage,
+      clickSearchStorage
+    );
   }, []);
 
   const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     setClickSearch(true);
     setIsLoading(true);
-    await getArticlesFromAPI(searchValue,
+    await getArticlesFromAPI(
+      searchValue,
       sortBy,
       amountArtclsPerPAge,
-      page, clickSearch);
+      page,
+      clickSearch
+    );
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const { value } = event.target;
     setSearchValue(value);
-    myStorage.setItem('searchValueStorage', value);
+    myStorage.setItem("searchValueStorage", value);
   };
 
   useEffect(() => {
-    getArticlesFromAPI(searchValue,
+    getArticlesFromAPI(
+      searchValue,
       sortBy,
       amountArtclsPerPAge,
-      page, clickSearch);
+      page,
+      clickSearch
+    );
   }, [sortBy, amountArtclsPerPAge, page, clickSearch]);
 
   return (
