@@ -20,7 +20,7 @@ ReactDOM.render(
         {/* <Switch> */}
         <Route exact path="/" component={App} />
         <Route exact path="/about" component={About} />
-        <Route path="/details/:id" component={Details} />
+        <Route path="/details/:id/:from/:to" component={Details} />
         <Route component={ErrorPage} />
         {/* </Switch> */}
       </AnimatedSwitch>

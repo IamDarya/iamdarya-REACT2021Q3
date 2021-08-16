@@ -250,6 +250,11 @@ input:-internal-autofill-selected {
   opacity: 1;
 }
 
+.small-text {
+  font-size: 20px;
+  color: rgba(255, 0, 0, 0.616);
+}
+
 @keyframes spin {
   from {
     transform: rotate(0deg);

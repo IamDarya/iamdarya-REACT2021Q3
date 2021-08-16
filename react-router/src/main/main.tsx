@@ -18,11 +18,11 @@ export function SearchBar(): JSX.Element {
   const [articles, setArticles] = useState<Array<Article>>([]);
   const [clickSearch, setClickSearch] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<SortType>(SortType.publishedAt);
+  const [totalResults, setTotalResults] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
   const [amountArtclsPerPAge, setAmountArtclsPerPAge] = useState<number>(
     AmountArtclsPerPAge.twenty
   );
-  const [totalResults, setTotalResults] = useState<number>(0);
-  const [page, setPage] = useState<number>(1);
 
   const myStorage: Storage = window.sessionStorage;
 
@@ -69,7 +69,6 @@ export function SearchBar(): JSX.Element {
         setArticles(response.data.articles);
       } catch (error) {
         throw new Error(error);
-        ;
       } finally {
         setIsLoading(false);
       }
@@ -164,7 +163,7 @@ export function SearchBar(): JSX.Element {
             disabled={isLoading}
           />
         </label>
-        <button type="submit" className="search-btn" disabled={isLoading}>
+        <button type="submit" className="search-btn btn" disabled={isLoading}>
           {isLoading && "Searching..."}
           <svg
             className="svg-inline--fa fa-search fa-w-16"
@@ -187,6 +186,7 @@ export function SearchBar(): JSX.Element {
         <label className="sort-by-label margin-for-labels">Sort by:</label>
         <button
           type="submit"
+          className="btn"
           onClick={() => {
             setSortBy(SortType.publishedAt);
           }}
@@ -197,6 +197,7 @@ export function SearchBar(): JSX.Element {
         </button>
         <button
           type="submit"
+          className="btn"
           onClick={() => {
             setSortBy(SortType.popularity);
           }}
@@ -207,6 +208,7 @@ export function SearchBar(): JSX.Element {
         </button>
         <button
           type="button"
+          className="btn"
           onClick={() => {
             setSortBy(SortType.relevancy);
           }}
@@ -267,6 +269,28 @@ export function SearchBar(): JSX.Element {
               />
             </>
           )}
+          <label
+            htmlFor="reset-btn"
+            className="reset-btn-label margin-for-labels"
+          ></label>
+          <button
+            type="button"
+            id="reset-btn"
+            className="reset-btn btn"
+            onClick={() => {
+              setSearchValue("");
+              setIsLoading(false);
+              setArticles([]);
+              setClickSearch(false);
+              setSortBy(SortType.publishedAt);
+              setTotalResults(0);
+              setPage(1);
+              setAmountArtclsPerPAge(AmountArtclsPerPAge.twenty);
+              myStorage.clear();
+            }}
+          >
+            Clear search parameters
+          </button>
         </div>
       </div>
       <LoadingSpinner isLoading={isLoading} />

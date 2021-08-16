@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ArticlePost } from "../articles/post";
 import { axiosInstance } from "../services/api";
 import { Article, GetArticles } from "../types/types";
+import "../header/header.scss";
 
 type ParamForLink = {
   id: string;
+  date: string
 };
 
 export function Details(): JSX.Element {
@@ -15,10 +17,8 @@ export function Details(): JSX.Element {
 
   useEffect(() => {
     axiosInstance
-      .get<GetArticles>(
-        `/v2/everything?q=${paramForLink.id}&apiKey=40f8ecaa00bd42db95beab4189efa260` // 329abaf799f04521818f8694ecd73318
-      )
-      .then((response) => setArticle(response.data.articles));
+      .get<GetArticles>(`/v2/everything?qInTitle=${paramForLink.id}&from=${paramForLink.date}&to=${paramForLink.date}&apiKey=40f8ecaa00bd42db95beab4189efa260` // 329abaf799f04521818f8694ecd73318
+      ).then((response) => setArticle(response.data.articles));
   }, []);
 
   const articlesArray = articles.map((article, index) => (
@@ -34,5 +34,17 @@ export function Details(): JSX.Element {
       key={index}
     />
   ));
-  return <div className="cards-wrapper">{articlesArray}</div>;
+  return (
+    <>
+      {" "}
+      <h2 style={{ color: "#a8b9c2" }} className="details-go-back">
+        Go back to{" "}
+        <Link to="/" className="link">
+          HOME
+        </Link>{" "}
+        page.
+      </h2>
+      <div className="cards-wrapper">{articlesArray}</div>
+    </>
+  );
 }

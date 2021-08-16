@@ -11,7 +11,7 @@ export function About(): JSX.Element {
       <div className="about-wrapper">
         <h2 className="about-sign">About page</h2>
         <h3>
-          About what? Hmmm...I don't know.So, I think it's always a good time
+          About what? Hmmm...I don't know. So, I think it's always a good time
           for a quote from "The Lord of the Rings" by J.R.R. Tolkien:
         </h3>
         <section>
