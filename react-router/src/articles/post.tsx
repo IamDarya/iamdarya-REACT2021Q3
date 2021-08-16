@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import "../style.scss";
 
 type MyProps = {
@@ -17,8 +18,10 @@ type MyProps = {
 
 export function ArticlePost(props: MyProps): JSX.Element {
   return (
+    <>
     <div className="one-article-wrapper">
-      <h2>{props.title}</h2>
+    <h2><NavLink
+    to={`/details/${props.title}`} activeClassName='link-active' className='link'>{props.title}</NavLink></h2>
 
       <p>by:</p>
       <h3>{props.author}</h3>
@@ -47,8 +50,9 @@ export function ArticlePost(props: MyProps): JSX.Element {
       <p>published at:</p>
       <h3>{props.publishedAt}</h3>
 
-      {/* <p>source id:</p>
-        <h2>{props.source.id}</h2> */}
-    </div>
+      </div></>
   );
 }
+
+{/* <NavLink
+        to='/about' activeClassName='link-active' className='link'>About</NavLink> */}

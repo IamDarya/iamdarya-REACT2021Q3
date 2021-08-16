@@ -10,10 +10,6 @@ body {
   height: 100%;
 }
 
-.search-for-smth {
-  margin: 6rem auto 20rem;
-}
-
 .one-article-wrapper {
   background-image: linear-gradient(#fbffef, #f2f4fa);
   box-shadow: 1px 2px 7px 0px #607d8b;
@@ -71,6 +67,22 @@ h1 {
   margin: 0 0 0 1rem;
 }
 
+/*ANIMATION*/
+
+.switch-wrapper {
+  position: relative;
+  display: flex;
+    justify-content: center;
+    width: 100%;
+
+}
+
+.switch-wrapper > div {
+  position: absolute;
+  width: 100%;
+
+}
+
 /*SEARCH*/
 
 .search {
@@ -87,6 +99,10 @@ h1 {
   align-items: center;
   margin: 2rem auto;
   transition: ease-in 0.4s;
+}
+
+.search-for-smth {
+  margin-top: 6rem;
 }
 
 input:-internal-autofill-selected {
