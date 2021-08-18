@@ -7,7 +7,7 @@ import "../header/header.scss";
 
 type ParamForLink = {
   id: string;
-  date: string
+  date: string;
 };
 
 export function Details(): JSX.Element {
@@ -17,8 +17,8 @@ export function Details(): JSX.Element {
 
   useEffect(() => {
     axiosInstance
-      .get<GetArticles>(`/v2/everything?qInTitle=${paramForLink.id}&from=${paramForLink.date}&to=${paramForLink.date}&apiKey=40f8ecaa00bd42db95beab4189efa260` // 329abaf799f04521818f8694ecd73318
-      ).then((response) => setArticle(response.data.articles));
+      .get<GetArticles>(`/v2/everything?qInTitle=${paramForLink.id}&from=${paramForLink.date}&to=${paramForLink.date}&apiKey=40f8ecaa00bd42db95beab4189efa260`) // 329abaf799f04521818f8694ecd73318
+      .then((response) => setArticle(response.data.articles));
   }, []);
 
   const articlesArray = articles.map((article, index) => (

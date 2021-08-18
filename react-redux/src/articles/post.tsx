@@ -22,7 +22,9 @@ export function ArticlePost(props: MyProps): JSX.Element {
       <div className="one-article-wrapper">
         <h2>
           <NavLink
-            to={`/details/${encodeURIComponent(props.title)}/${encodeURIComponent(props.publishedAt)}/${encodeURIComponent(props.publishedAt)}`}
+            to={`/details/${encodeURIComponent(
+              props.title
+            )}/${encodeURIComponent(props.publishedAt)}`}
             activeClassName="link-active"
             className="link"
           >
