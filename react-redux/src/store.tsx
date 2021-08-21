@@ -1,7 +1,12 @@
-import { configureStore } from "../node_modules/@reduxjs/toolkit/dist/index";
-import { rootReducer } from "./redux/reducer";
+import { configureStore } from "@reduxjs/toolkit";
+import searchValueReducer from "./main/slice"
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    // articles: articlesReducer,
+    searchValue: searchValueReducer},
   devTools: process.env.NODE_ENV !== "production",
 });
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
