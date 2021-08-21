@@ -1,16 +1,17 @@
 import React from "react";
-import { Article } from "../types/types";
 import "../style.scss";
 import { ArticlePost } from "./post";
+import { useAppSelector } from "../hooks";
 
 type Props = {
-  articles: Article[];
-  isLoading: boolean;
   clickSearch: boolean;
 };
 
 export function Posts(props: Props): JSX.Element {
-  const articlesArray = props.articles.map((article, index) => (
+
+  const articles = useAppSelector((state) => state.mainComponent.articles)
+
+  const articlesArray = articles.map((article, index) => (
     <ArticlePost
       author={article.author}
       content={article.content}
@@ -25,7 +26,7 @@ export function Posts(props: Props): JSX.Element {
   ));
   return (
     <div className="cards-wrapper">
-      {props.articles.length === 0 && (
+      {articles.length === 0 && (
         <h2 className="search-for-smth">Search for something...</h2>
       )}
       {articlesArray}

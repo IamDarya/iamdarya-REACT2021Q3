@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArticlePost } from "../articles/post";
-import { axiosInstance } from "../services/api";
-import { Article, GetArticles } from "../types/types";
 import "../header/header.scss";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { getArticle } from "./slice";
 
 type ParamForLink = {
   id: string;
@@ -11,17 +11,17 @@ type ParamForLink = {
 };
 
 export function Details(): JSX.Element {
-  const [articles, setArticle] = useState<Array<Article>>([]);
+
+  const dispatch = useAppDispatch()
+  const article = useAppSelector((state) => state.detailsComponent.article)
 
   const paramForLink = useParams<ParamForLink>();
 
   useEffect(() => {
-    axiosInstance
-      .get<GetArticles>(`/v2/everything?qInTitle=${paramForLink.id}&from=${paramForLink.date}&to=${paramForLink.date}&apiKey=40f8ecaa00bd42db95beab4189efa260`) // 329abaf799f04521818f8694ecd73318
-      .then((response) => setArticle(response.data.articles));
+    dispatch(getArticle(paramForLink.id, paramForLink.date))
   }, []);
 
-  const articlesArray = articles.map((article, index) => (
+  const articlesArray = article.map((article, index) => (
     <ArticlePost
       author={article.author}
       content={article.content}

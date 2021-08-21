@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import searchValueReducer from "./main/slice"
+import mainComponentReducer from "./main/slice"
+import detailsComponentReducer from "./details/slice"
 
 export const store = configureStore({
   reducer: {
-    // articles: articlesReducer,
-    searchValue: searchValueReducer},
+    mainComponent: mainComponentReducer,
+    detailsComponent: detailsComponentReducer
+  },
   devTools: process.env.NODE_ENV !== "production",
 });
 

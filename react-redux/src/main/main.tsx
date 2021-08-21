@@ -1,30 +1,26 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { AxiosResponse } from "../../node_modules/axios/index";
 import {
   AmountArtclsPerPAge,
-  Article,
-  GetArticles,
   SortType,
 } from "../types/types";
 import { Posts } from "../articles/posts";
-import { axiosInstance } from "../services/api";
 import "../style.scss";
 import { LoadingSpinner } from "../loading-spinner/loading-spinner";
 import { Header } from "../header/header";
-import { useDispatch, useSelector } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { changeValue } from "./slice";
+import { changeArticles, changeIsLoading, changeTotalResults, changeValue, getArticles } from "./slice";
 
 export function SearchBar(): JSX.Element {
 
-  const searchValue = useAppSelector((state) => state.searchValue.value)
   const dispatch = useAppDispatch()
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [articles, setArticles] = useState<Array<Article>>([]);
+  const searchValue = useAppSelector((state) => state.mainComponent.value)
+  const totalResults = useAppSelector((state) => state.mainComponent.totalResults)
+  const isLoading = useAppSelector((state) => state.mainComponent.isLoading)
+  const articles = useAppSelector((state) => state.mainComponent.articles)
+
   const [clickSearch, setClickSearch] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<SortType>(SortType.publishedAt);
-  const [totalResults, setTotalResults] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const [amountArtclsPerPAge, setAmountArtclsPerPAge] = useState<number>(
     AmountArtclsPerPAge.twenty
@@ -52,7 +48,7 @@ export function SearchBar(): JSX.Element {
     );
   };
 
-  const getArticlesFromAPI = async (
+  const getArticlesFromAPI = (
     searchValueAPI: string,
     sortByAPI: SortType,
     amountArtclsPerPAgeAPI: number,
@@ -67,17 +63,13 @@ export function SearchBar(): JSX.Element {
         pageAPI,
         clickSearchAPI
       );
-      try {
-        const response: AxiosResponse<GetArticles> = await axiosInstance.get(
-          `/v2/everything?q=${searchValueAPI}&sortBy=${sortByAPI}&pageSize=${amountArtclsPerPAgeAPI}&page=${pageAPI}&apiKey=1937ba3dfc0942eb85c1f4032377b9a6` // 40f8ecaa00bd42db95beab4189efa260 ; 329abaf799f04521818f8694ecd73318
-        );
-        setTotalResults(response.data.totalResults);
-        setArticles(response.data.articles);
-      } catch (error) {
-        throw new Error(error);
-      } finally {
-        setIsLoading(false);
-      }
+        dispatch(getArticles(
+          searchValueAPI,
+          sortByAPI,
+          amountArtclsPerPAgeAPI,
+          pageAPI,
+          clickSearchAPI
+        ))
     }
   };
 
@@ -127,8 +119,8 @@ export function SearchBar(): JSX.Element {
   const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     setClickSearch(true);
-    setIsLoading(true);
-    await getArticlesFromAPI(
+    dispatch(changeIsLoading(true))
+     getArticlesFromAPI(
       searchValue,
       sortBy,
       amountArtclsPerPAge,
@@ -286,11 +278,11 @@ export function SearchBar(): JSX.Element {
             className="reset-btn btn"
             onClick={() => {
               dispatch(changeValue(''));
-              setIsLoading(false);
-              setArticles([]);
+              dispatch(changeIsLoading(false))
+              dispatch(changeArticles([]))
+              dispatch(changeTotalResults(0))
               setClickSearch(false);
               setSortBy(SortType.publishedAt);
-              setTotalResults(0);
               setPage(1);
               setAmountArtclsPerPAge(AmountArtclsPerPAge.twenty);
               myStorage.clear();
@@ -302,8 +294,6 @@ export function SearchBar(): JSX.Element {
       </div>
       <LoadingSpinner isLoading={isLoading} />
       <Posts
-        articles={articles}
-        isLoading={isLoading}
         clickSearch={clickSearch}
       />
     </>
