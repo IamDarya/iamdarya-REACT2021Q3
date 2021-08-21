@@ -11,9 +11,15 @@ import { axiosInstance } from "../services/api";
 import "../style.scss";
 import { LoadingSpinner } from "../loading-spinner/loading-spinner";
 import { Header } from "../header/header";
+import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { changeValue } from "./slice";
 
 export function SearchBar(): JSX.Element {
-  const [searchValue, setSearchValue] = useState<string>("");
+
+  const searchValue = useAppSelector((state) => state.searchValue.value)
+  const dispatch = useAppDispatch()
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [articles, setArticles] = useState<Array<Article>>([]);
   const [clickSearch, setClickSearch] = useState<boolean>(false);
@@ -83,7 +89,8 @@ export function SearchBar(): JSX.Element {
     let clickSearchStorage = false;
     if (searchValue === "" && myStorage.getItem("searchValueStorage")) {
       searchValueStorage = myStorage.getItem("searchValueStorage") || "";
-      setSearchValue(searchValueStorage);
+
+      dispatch(changeValue(searchValueStorage))
     }
     if (sortBy === SortType.publishedAt && myStorage.getItem("sortByStorage")) {
       sortByStorage = myStorage.getItem("sortByStorage") as SortType;
@@ -133,7 +140,7 @@ export function SearchBar(): JSX.Element {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const { value } = event.target;
-    setSearchValue(value);
+    dispatch(changeValue(value));
     myStorage.setItem("searchValueStorage", value);
   };
 
@@ -278,7 +285,7 @@ export function SearchBar(): JSX.Element {
             id="reset-btn"
             className="reset-btn btn"
             onClick={() => {
-              setSearchValue("");
+              dispatch(changeValue(''));
               setIsLoading(false);
               setArticles([]);
               setClickSearch(false);
