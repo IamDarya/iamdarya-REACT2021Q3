@@ -11,26 +11,25 @@ type ParamForLink = {
 };
 
 export function Details(): JSX.Element {
-
-  const dispatch = useAppDispatch()
-  const article = useAppSelector((state) => state.detailsComponent.article)
+  const dispatch = useAppDispatch();
+  const article = useAppSelector((state) => state.detailsComponent.article);
 
   const paramForLink = useParams<ParamForLink>();
 
   useEffect(() => {
-    dispatch(getArticle(paramForLink.id, paramForLink.date))
+    dispatch(getArticle(paramForLink.id, paramForLink.date));
   }, []);
 
-  const articlesArray = article.map((article, index) => (
+  const articlesArray = article.map((articleForDetails, index) => (
     <ArticlePost
-      author={article.author}
-      content={article.content}
-      description={article.description}
-      publishedAt={article.publishedAt}
-      source={{ id: article.source.id, name: article.source.name }}
-      title={article.title}
-      url={article.url}
-      urlToImage={article.urlToImage}
+      author={articleForDetails.author}
+      content={articleForDetails.content}
+      description={articleForDetails.description}
+      publishedAt={articleForDetails.publishedAt}
+      source={{ id: articleForDetails.source.id, name: articleForDetails.source.name }}
+      title={articleForDetails.title}
+      url={articleForDetails.url}
+      urlToImage={articleForDetails.urlToImage}
       key={index}
     />
   ));

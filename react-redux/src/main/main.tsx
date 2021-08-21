@@ -1,23 +1,26 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import {
-  AmountArtclsPerPAge,
-  SortType,
-} from "../types/types";
+import { AmountArtclsPerPAge, SortType } from "../types/types";
 import { Posts } from "../articles/posts";
 import "../style.scss";
 import { LoadingSpinner } from "../loading-spinner/loading-spinner";
 import { Header } from "../header/header";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { changeArticles, changeIsLoading, changeTotalResults, changeValue, getArticles } from "./slice";
+import {
+  changeArticles,
+  changeIsLoading,
+  changeTotalResults,
+  changeValue,
+  getArticles,
+} from "./slice";
 
 export function SearchBar(): JSX.Element {
+  const dispatch = useAppDispatch();
 
-  const dispatch = useAppDispatch()
-
-  const searchValue = useAppSelector((state) => state.mainComponent.value)
-  const totalResults = useAppSelector((state) => state.mainComponent.totalResults)
-  const isLoading = useAppSelector((state) => state.mainComponent.isLoading)
-  const articles = useAppSelector((state) => state.mainComponent.articles)
+  const searchValue = useAppSelector((state) => state.mainComponent.value);
+  const totalResults = useAppSelector(
+    (state) => state.mainComponent.totalResults
+  );
+  const isLoading = useAppSelector((state) => state.mainComponent.isLoading);
 
   const [clickSearch, setClickSearch] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<SortType>(SortType.publishedAt);
@@ -63,13 +66,14 @@ export function SearchBar(): JSX.Element {
         pageAPI,
         clickSearchAPI
       );
-        dispatch(getArticles(
+      dispatch(
+        getArticles(
           searchValueAPI,
           sortByAPI,
           amountArtclsPerPAgeAPI,
-          pageAPI,
-          clickSearchAPI
-        ))
+          pageAPI
+        )
+      );
     }
   };
 
@@ -82,7 +86,7 @@ export function SearchBar(): JSX.Element {
     if (searchValue === "" && myStorage.getItem("searchValueStorage")) {
       searchValueStorage = myStorage.getItem("searchValueStorage") || "";
 
-      dispatch(changeValue(searchValueStorage))
+      dispatch(changeValue(searchValueStorage));
     }
     if (sortBy === SortType.publishedAt && myStorage.getItem("sortByStorage")) {
       sortByStorage = myStorage.getItem("sortByStorage") as SortType;
@@ -119,8 +123,8 @@ export function SearchBar(): JSX.Element {
   const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     setClickSearch(true);
-    dispatch(changeIsLoading(true))
-     getArticlesFromAPI(
+    dispatch(changeIsLoading(true));
+    getArticlesFromAPI(
       searchValue,
       sortBy,
       amountArtclsPerPAge,
@@ -277,10 +281,10 @@ export function SearchBar(): JSX.Element {
             id="reset-btn"
             className="reset-btn btn"
             onClick={() => {
-              dispatch(changeValue(''));
-              dispatch(changeIsLoading(false))
-              dispatch(changeArticles([]))
-              dispatch(changeTotalResults(0))
+              dispatch(changeValue(""));
+              dispatch(changeIsLoading(false));
+              dispatch(changeArticles([]));
+              dispatch(changeTotalResults(0));
               setClickSearch(false);
               setSortBy(SortType.publishedAt);
               setPage(1);
@@ -293,9 +297,7 @@ export function SearchBar(): JSX.Element {
         </div>
       </div>
       <LoadingSpinner isLoading={isLoading} />
-      <Posts
-        clickSearch={clickSearch}
-      />
+      <Posts />
     </>
   );
 }

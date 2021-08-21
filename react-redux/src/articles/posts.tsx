@@ -3,13 +3,8 @@ import "../style.scss";
 import { ArticlePost } from "./post";
 import { useAppSelector } from "../hooks";
 
-type Props = {
-  clickSearch: boolean;
-};
-
-export function Posts(props: Props): JSX.Element {
-
-  const articles = useAppSelector((state) => state.mainComponent.articles)
+export function Posts(): JSX.Element {
+  const articles = useAppSelector((state) => state.mainComponent.articles);
 
   const articlesArray = articles.map((article, index) => (
     <ArticlePost
