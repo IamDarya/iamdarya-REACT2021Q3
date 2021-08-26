@@ -51,7 +51,7 @@ export const getArticles =
     amountArtclsPerPAgeAPI: number,
     pageAPI: number
   ) =>
-    async (dispatch: AppDispatch):Promise<void> => {
+    async (dispatch: AppDispatch): Promise<void> => {
       try {
         const response: AxiosResponse<GetArticles> = await axiosInstance.get(
           `/v2/everything?q=${searchValueAPI}&sortBy=${sortByAPI}&pageSize=${amountArtclsPerPAgeAPI}&page=${pageAPI}&apiKey=1937ba3dfc0942eb85c1f4032377b9a6` // 40f8ecaa00bd42db95beab4189efa260 ; 329abaf799f04521818f8694ecd73318
@@ -65,7 +65,7 @@ export const getArticles =
       }
     };
 
-export const selectSearchValue = (state: RootState):string =>
+export const selectSearchValue = (state: RootState): string =>
   state.mainComponent.value;
 
 export default mainComponentSlice.reducer;

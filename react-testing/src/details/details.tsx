@@ -26,7 +26,10 @@ export function Details(): JSX.Element {
       content={articleForDetails.content}
       description={articleForDetails.description}
       publishedAt={articleForDetails.publishedAt}
-      source={{ id: articleForDetails.source.id, name: articleForDetails.source.name }}
+      source={{
+        id: articleForDetails.source.id,
+        name: articleForDetails.source.name,
+      }}
       title={articleForDetails.title}
       url={articleForDetails.url}
       urlToImage={articleForDetails.urlToImage}

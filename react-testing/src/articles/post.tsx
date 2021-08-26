@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { HashRouter, NavLink } from "react-router-dom";
 import "../style.scss";
 
 type MyProps = {
@@ -13,7 +13,7 @@ type MyProps = {
   };
   title: string;
   url: string;
-  urlToImage: string;
+  urlToImage: string | null;
 };
 
 export function ArticlePost(props: MyProps): JSX.Element {
@@ -38,6 +38,7 @@ export function ArticlePost(props: MyProps): JSX.Element {
 
         <p>image:</p>
         <img
+          data-testid="image"
           src={
             props.urlToImage !== null
               ? props.urlToImage
@@ -61,5 +62,25 @@ export function ArticlePost(props: MyProps): JSX.Element {
         <h3>{props.publishedAt}</h3>
       </div>
     </>
+  );
+}
+
+export function FixBugPost(props: MyProps): JSX.Element {
+  return (
+    <React.StrictMode>
+      <HashRouter>
+        <ArticlePost
+          author={props.author}
+          content={props.content}
+          description={props.description}
+          publishedAt={props.publishedAt}
+          source={{ id: props.source.id, name: props.source.name }}
+          title={props.title}
+          url={props.url}
+          urlToImage={props.urlToImage}
+          key={1}
+        />
+      </HashRouter>
+    </React.StrictMode>
   );
 }

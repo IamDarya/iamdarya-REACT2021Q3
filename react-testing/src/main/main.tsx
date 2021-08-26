@@ -1,4 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
+import { Provider } from "react-redux";
+import { HashRouter, Route } from "react-router-dom";
 import { AmountArtclsPerPAge, SortType } from "../types/types";
 import { Posts } from "../articles/posts";
 import "../style.scss";
@@ -12,6 +14,7 @@ import {
   changeValue,
   getArticles,
 } from "./slice";
+import { store } from "../store";
 
 export function SearchBar(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -67,12 +70,7 @@ export function SearchBar(): JSX.Element {
         clickSearchAPI
       );
       dispatch(
-        getArticles(
-          searchValueAPI,
-          sortByAPI,
-          amountArtclsPerPAgeAPI,
-          pageAPI
-        )
+        getArticles(searchValueAPI, sortByAPI, amountArtclsPerPAgeAPI, pageAPI)
       );
     }
   };
@@ -154,9 +152,14 @@ export function SearchBar(): JSX.Element {
     <>
       <Header />
       <h1>Search For The News</h1>
-      <form className="search" onSubmit={handleSubmit}>
+      <form
+        className="search"
+        onSubmit={handleSubmit}
+        data-testid="form-submit"
+      >
         <label htmlFor="search-txt">
           <input
+            data-testid="search-value"
             id="search-txt"
             className="search-txt"
             type="text"
@@ -299,5 +302,17 @@ export function SearchBar(): JSX.Element {
       <LoadingSpinner isLoading={isLoading} />
       <Posts />
     </>
+  );
+}
+
+export function FixBugSearchBar(): JSX.Element {
+  return (
+    <Provider store={store}>
+      <React.StrictMode>
+        <HashRouter>
+          <Route exact path="/" component={SearchBar} />
+        </HashRouter>
+      </React.StrictMode>
+    </Provider>
   );
 }
