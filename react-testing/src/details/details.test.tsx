@@ -2,7 +2,9 @@ import axios from "axios";
 import { render, screen } from "@testing-library/react";
 import { FixBugDetails } from "./details";
 
-const mockedAxios = jest.genMockFromModule('axios') as jest.Mocked<typeof axios>;
+const mockedAxios = jest.genMockFromModule("axios") as jest.Mocked<
+  typeof axios
+>;
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"), // use actual for all non-hook parts
@@ -14,7 +16,7 @@ jest.mock("react-router-dom", () => ({
 }));
 
 beforeAll(() => {
-  mockedAxios.create = jest.fn(() => mockedAxios)
+  mockedAxios.create = jest.fn(() => mockedAxios);
 });
 
 it("details have date and id", async () => {
@@ -38,10 +40,12 @@ it("details have date and id", async () => {
       },
     ],
   };
-  mockedAxios.get.mockResolvedValue({data: response});
+  mockedAxios.get.mockResolvedValue({ data: response });
   const post = render(FixBugDetails());
-  const htmlEl = await screen.findByAltText('image') as HTMLImageElement;
-  expect(htmlEl.src).toBe('https://icdn.digitaltrends.com/image/digitaltrends/sony-55-class-x85j-series-led-4k-uhd-smart-google-tv.jpg');
+  const htmlEl = (await screen.findByAltText("image")) as HTMLImageElement;
+  expect(htmlEl.src).toBe(
+    "https://icdn.digitaltrends.com/image/digitaltrends/sony-55-class-x85j-series-led-4k-uhd-smart-google-tv.jpg"
+  );
   expect(post).not.toBe(null);
   expect(post).not.toBe(undefined);
 });

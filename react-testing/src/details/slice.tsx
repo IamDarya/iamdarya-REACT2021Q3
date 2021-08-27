@@ -26,12 +26,10 @@ export const { changeArticle } = detailsComponentSlice.actions;
 export const getArticle =
   (id: string, date: string) =>
     async (dispatch: AppDispatch): Promise<void> => {
-      console.log('id/',id, 'date/',date);
       axiosInstance
         .get<GetArticles>(
         `/v2/everything?qInTitle=${id}&from=${date}&to=${date}&apiKey=40f8ecaa00bd42db95beab4189efa260`
-      )
-        .then((response) =>  {console.log('response/',response);dispatch(changeArticle(response.data.articles))}); // 329abaf799f04521818f8694ecd73318
+      ).then((response) => dispatch(changeArticle(response.data.articles))); // 329abaf799f04521818f8694ecd73318
     };
 
 export const selectSearchValue = (state: RootState): string =>
