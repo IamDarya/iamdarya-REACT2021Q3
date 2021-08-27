@@ -38,6 +38,7 @@ export function ArticlePost(props: MyProps): JSX.Element {
 
         <p>image:</p>
         <img
+          alt="image"
           data-testid="image"
           src={
             props.urlToImage !== null

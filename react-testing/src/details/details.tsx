@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Provider } from "react-redux";
+import { HashRouter, Link, useParams } from "react-router-dom";
 import { ArticlePost } from "../articles/post";
 import "../header/header.scss";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { store } from "../store";
 import { getArticle } from "./slice";
 
 type ParamForLink = {
@@ -13,7 +15,6 @@ type ParamForLink = {
 export function Details(): JSX.Element {
   const dispatch = useAppDispatch();
   const article = useAppSelector((state) => state.detailsComponent.article);
-
   const paramForLink = useParams<ParamForLink>();
 
   useEffect(() => {
@@ -48,5 +49,17 @@ export function Details(): JSX.Element {
       </h2>
       <div className="cards-wrapper">{articlesArray}</div>
     </>
+  );
+}
+
+export function FixBugDetails(): JSX.Element {
+  return (
+    <Provider store={store}>
+      <React.StrictMode>
+        <HashRouter>
+          <Details />
+        </HashRouter>
+      </React.StrictMode>
+    </Provider>
   );
 }
